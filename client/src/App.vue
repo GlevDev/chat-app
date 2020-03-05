@@ -5,15 +5,19 @@
       <p class="username">Username: {{ username }}</p>
       <p class="online">Online: {{ users.length }}</p>
     </div>
+    <ChatRoom @sendMessage="this.sendMessage" :messages="messages" />
   </div>
 </template>
 
 <script>
 import io from 'socket.io-client';
+import ChatRoom from './components/ChatRoom';
 
 export default {
   name: 'App',
-  components: {},
+  components: {
+    ChatRoom
+  },
   data() {
     return {
       username: "",
@@ -42,6 +46,9 @@ export default {
       this.socket.on('msg', message => {
         this.messages.push(message);
       })
+    },
+    sendMessage(message) {
+      this.socket.emit('msg', message);
     }
   },
   mounted: function() {
@@ -69,5 +76,7 @@ body {
   width: 100%;
   max-width: 768px;
   margin: 0 auto;
+  padding: 15px;
+  box-sizing: border-box;
 }
 </style>
