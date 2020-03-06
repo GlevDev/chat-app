@@ -1,10 +1,25 @@
 const app = require("express")();
 const http = require("http").Server(app);
 const io = require("socket.io")(http);
+const mongoose = require("mongoose");
 
 let users = [];
 let messages = [];
 let index = 0;
+
+mongoose.connect("mongodb://localhost:27017/chatapp");
+
+const ChatSchema = mongoose.Schema({
+  username: String,
+  msg: String
+});
+
+const ChatModel = mongoose.model("chat", ChatSchema);
+
+ChatModel.find((err, result) => {
+  if(err) throw err;
+  messages = result;
+})
 
 io.on("connection", socket => {
   socket.emit('loggedIn', {
@@ -18,14 +33,19 @@ io.on("connection", socket => {
     io.emit('userOnline', socket.username);
   })
   socket.on('msg', msg => {
-    let message = {
-      index: index,
+    let message = new ChatModel({
       username: socket.username,
       msg: msg
-    }
-    messages.push(message);
-    io.emit('msg', message);
-    index++;
+    })
+    message.save((err, result) => {
+      if(err) throw err;
+      console.log(result);
+      messages.push(result);
+      io.emit('msg', result);
+    })
+    // messages.push(message);
+    // io.emit('msg', message);
+    // index++;
   });
   // Disconnect
   socket.on("disconnect", () => {
