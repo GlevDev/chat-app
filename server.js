@@ -41,6 +41,7 @@ io.on("connection", socket => {
       username: socket.username,
       msg: msg
     })
+    console.log(message);
     message.save((err, result) => {
       if(err) throw err;
       console.log(result);
