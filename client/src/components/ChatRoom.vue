@@ -8,7 +8,7 @@
     </div>
     <form class="input-container" @submit="sendMessage">
       <input type="text" v-model="msg" />
-      <button @click="sendMessage" :disabled="!msg">Send</button>
+      <button @click="sendMessage" :disabled="!msg">Envoyer</button>
     </form>
   </div>
 </template>
@@ -25,7 +25,7 @@ export default {
   methods: {
     sendMessage() {
       if (!this.msg) {
-        alert("Please enter a message");
+        alert("Merci d'entrer un message");
         return;
       }
       this.$emit("sendMessage", this.msg);

@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <div class="header">
-      <h1>Chatroom</h1>
-      <p class="username">Username: {{ username }}</p>
-      <p class="online">Online: {{ users.length }}</p>
+      <h1>Chat</h1>
+      <p class="username">Utilisateur: {{ username }}</p>
+      <p class="online">En ligne: {{ users.length }}</p>
     </div>
     <ChatRoom @sendMessage="this.sendMessage" :messages="messages" />
   </div>
@@ -52,9 +52,9 @@ export default {
     }
   },
   mounted: function() {
-    this.username = prompt("What is your username ?", "Anonymous");
+    this.username = prompt("Nom d'utilisateur ?", "Anonyme");
     if(!this.username) {
-      this.username = "Anonymous";
+      this.username = "Anonyme";
     }
     this.joinServer();
   }

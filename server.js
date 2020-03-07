@@ -2,12 +2,15 @@ const app = require("express")();
 const http = require("http").Server(app);
 const io = require("socket.io")(http);
 const mongoose = require("mongoose");
+const dotenv = require('dotenv');
 
 let users = [];
 let messages = [];
-let index = 0;
+// let index = 0;
 
-mongoose.connect("mongodb://localhost:27017/chatapp");
+dotenv.config();
+
+mongoose.connect(process.env.DATABASE);
 
 const ChatSchema = mongoose.Schema({
   username: String,
@@ -27,7 +30,7 @@ io.on("connection", socket => {
     messages: messages
   });
   socket.on('newuser', username => {
-    console.log(`${username} has arrived at the party.`);
+    console.log(`${username} a rejoint la discussion`);
     socket.username = username;
     users.push(socket);
     io.emit('userOnline', socket.username);
@@ -49,7 +52,7 @@ io.on("connection", socket => {
   });
   // Disconnect
   socket.on("disconnect", () => {
-    console.log(`${socket.username} has left the party`);
+    console.log(`${socket.username} a quitté la discussion`);
     io.emit("userLeft", socket.username);
     users.splice(users.indexOf(socket), 1);
   })
