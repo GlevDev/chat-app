@@ -21,7 +21,7 @@ export default {
   data() {
     return {
       username: "",
-      socket: io("http://localhost:3000"),
+      socket: io("https://arcane-coast-41323.herokuapp.com/"),
       messages: [],
       users: []
     }
@@ -48,6 +48,7 @@ export default {
       })
     },
     sendMessage(message) {
+      console.log(message);BeforeUnloadEvent
       this.socket.emit('msg', message);
     }
   },

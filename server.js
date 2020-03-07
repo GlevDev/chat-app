@@ -36,6 +36,7 @@ io.on("connection", socket => {
     io.emit('userOnline', socket.username);
   })
   socket.on('msg', msg => {
+    console.log(msg)
     let message = new ChatModel({
       username: socket.username,
       msg: msg
