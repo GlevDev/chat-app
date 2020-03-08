@@ -21,7 +21,8 @@ export default {
   data() {
     return {
       username: "",
-      socket: io("https://arcane-coast-41323.herokuapp.com/"),
+      // socket: io("https://arcane-coast-41323.herokuapp.com/"),
+      socket: io("http://localhost:3000/"),
       messages: [],
       users: []
     }

@@ -36,18 +36,22 @@ io.on("connection", socket => {
     io.emit('userOnline', socket.username);
   })
   socket.on('msg', msg => {
-    console.log(msg)
     let message = new ChatModel({
       username: socket.username,
       msg: msg
     })
-    console.log(message);
-    message.save((err, result) => {
+    message.save().then((result, err) => {
       if(err) throw err;
       console.log(result);
       messages.push(result);
       io.emit('msg', result);
     })
+    // message.save((err, result) => {
+    //   if(err) throw err;
+    //   console.log(result);
+    //   messages.push(result);
+    //   io.emit('msg', result);
+    // })
     // messages.push(message);
     // io.emit('msg', message);
     // index++;
